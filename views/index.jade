@@ -1,0 +1,34 @@
+extends layout
+block heading
+  link(rel='stylesheet', href='/stylesheets/index.css')
+block content
+  #container
+    //leave this inline!
+    video(id="videoElement",width="400",height="300",autoplay,loop)
+    canvas(id="drawCanvas" ,width="400" ,height="300")
+    #buttoncontainer
+      button#start start
+      button#stop stop
+  form
+    input(type="radio", name = "emotion",value="Happy", checked = "true")
+    | Happy
+    input(type="radio", name = "emotion",value="Sad")
+    | Sad
+    input(type="radio", name = "emotion",value="Angry")
+    | Angry
+    input(type="radio", name = "emotion",value="Fear")
+    | Fear
+    input(type="radio", name = "emotion",value="Surprise")
+    | Surprise
+    input(type="radio", name = "emotion",value="Disgust")
+    | Disgust
+    input(type="radio", name = "emotion",value="Contempt")
+    | Contempt
+  #chartContainer
+  script(src="javascripts/columnchart.js")
+  script(src="javascripts/canvasjs.min.js")
+  script(src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js")
+  script(src="javascripts/clmtrackr.js")
+  script(src="javascripts/model_pca_20_svm.js")
+  script(src="javascripts/webcam.js")
+  script(src="javascripts/main.js")
