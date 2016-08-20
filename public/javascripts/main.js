@@ -11,13 +11,13 @@ $( "#start" ).click(function() {
     chartdata = {emotion:selectedVal,posarray: JSON.stringify(positions)};
     $.post("/",chartdata,function( data ) {
     console.log( data);
-    console.log("success!")
+    console.log("success!");
     }, "json")
     .fail(function(a,b,c) {
       console.log(b);
       console.log(c);
     })
-  },500);
+  },500)
 });
 
 $( "#stop" ).click(function() {
@@ -99,6 +99,13 @@ $( "#delete" ).click(function() {
 $( "#test" ).click(function() {
     chartdata = {emotion:selectedVal,posarray: JSON.stringify(positions)};
     $.post("/test",chartdata,function( data ) {
+    console.log( data);
+  })
+});
+
+$( "#newnn" ).click(function() {
+    chartdata = {emotion:selectedVal,posarray: JSON.stringify(positions)};
+    $.post("/newnn",chartdata,function( data ) {
     console.log( data);
   })
 });
