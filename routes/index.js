@@ -5,13 +5,10 @@ var bodyParser = require('body-parser');
 var brain = require('brain')
 app.use(bodyParser.json()); // for parsing application/json
 var jsonfile = require('jsonfile')
+const fs = require('fs');
 
-var file = '/tmp/data.json'
-var obj = {name: 'JP'}
 
-jsonfile.writeFile(file, obj, function (err) {
-  console.error(err)
-})
+var file = 'data.json'
 
 var synaptic = require('synaptic'); // this line is not needed in the browser
 var Neuron = synaptic.Neuron,
@@ -21,16 +18,46 @@ var Neuron = synaptic.Neuron,
     Architect = synaptic.Architect;
 
 //this shit works! no resetting!
-var myNetwork = new Architect.Perceptron(142, 71, 35, 17,7);
+//var myNetwork = new Architect.Perceptron(142, 71, 35, 17,7);
+var myNetwork = new Architect.LSTM(142,70,7);
+
+
 var trainer = new Trainer(myNetwork)
 
-router.post('/save', function(req, res, next) {
+router.post('/test', function(req, res, next) {
+  var array = JSON.parse(req.body.posarray);
+  var traindata = makeinput(req.body.emotion,array);
+  res.send(trainer.test([traindata]));
+});
 
+router.post('/save', function(req, res, next) {
+  var obj = myNetwork.toJSON();
+
+  jsonfile.writeFile(file, obj, function (err) {
+    console.error(err)
+  })
+  res.send(["saved"]);
 });
 
 router.post('/load', function(req, res, next) {
+  var obj = {};
+  console.dir(jsonfile.readFileSync(file))
+  jsonfile.readFile(file, function(err, obj) {
+    console.error(err);
+    //console.dir(obj);
+  })
 
+  myNetwork = Network.fromJSON(obj);
+  console.log(myNetwork.toJSON());
+  res.send(["loaded"]);
 });
+
+router.post('/delete', function(req, res, next) {
+  fs.unlinkSync('data.json');
+  console.log('successfully deleted data.json');
+  res.send(["deleted"])
+});
+
 
 router.post('/activate', function(req, res, next) {
   var array = JSON.parse(req.body.posarray);
@@ -39,9 +66,8 @@ router.post('/activate', function(req, res, next) {
   var netoutput = myNetwork.activate(array);
   res.send(netoutput);
 });
+
 router.post('/', function(req, res, next) {
-
-
   var array = JSON.parse(req.body.posarray);
   var traindata = makeinput(req.body.emotion,array);
   res.send(trainer.train([traindata]));

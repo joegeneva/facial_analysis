@@ -2,7 +2,12 @@ var chartdata;
 var positionloop;
 $( "#start" ).click(function() {
   //data is gotten back from server
+  var timeup = 0;
   positionloop = window.setInterval(function(){
+    timeup+=1;
+    if (timeup == 20){
+      window.clearInterval(positionloop);
+    }
     chartdata = {emotion:selectedVal,posarray: JSON.stringify(positions)};
     $.post("/",chartdata,function( data ) {
     console.log( data);
@@ -12,7 +17,7 @@ $( "#start" ).click(function() {
       console.log(b);
       console.log(c);
     })
-  },1000);
+  },500);
 });
 
 $( "#stop" ).click(function() {
@@ -48,4 +53,52 @@ $( "#try" ).click(function() {
       console.log(c);
     })
   //},1000);
+});
+
+$( "#save" ).click(function() {
+  //data is gotten back from server
+  //positionloop = window.setInterval(function(){
+    $.post("/save",function( data) {
+      console.log(data);
+    }, "json")
+    .fail(function(a,b,c) {
+      console.log(b);
+      console.log(c);
+    })
+  //},1000);
+});
+
+
+$( "#load" ).click(function() {
+  //data is gotten back from server
+  //positionloop = window.setInterval(function(){
+    $.post("/load",function( data ) {
+      console.log(data);
+    }, "json")
+    .fail(function(a,b,c) {
+      console.log(b);
+      console.log(c);
+    })
+  //},1000);
+});
+
+$( "#delete" ).click(function() {
+  //data is gotten back from server
+  //positionloop = window.setInterval(function(){
+    $.post("/delete",function( data ) {
+      console.log(data);
+    }, "json")
+    .fail(function(a,b,c) {
+      console.log(b);
+      console.log(c);
+    })
+  //},1000);
+});
+
+
+$( "#test" ).click(function() {
+    chartdata = {emotion:selectedVal,posarray: JSON.stringify(positions)};
+    $.post("/test",chartdata,function( data ) {
+    console.log( data);
+  })
 });
