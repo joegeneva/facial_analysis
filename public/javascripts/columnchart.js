@@ -9,13 +9,15 @@ var chart;
 				data: [{
 					type: "column",
 					dataPoints: [
-						{ y: 45, label: "Happy" ,indexLabel: "Lowest"},
-						{ y: 31, label: "Sad" ,indexLabel: "Highest" },
-						{ y: 52, label: "Angry" },
-						{ y: 10, label: "Fear" },
-						{ y: 46, label: "Surprise" },
-						{ y: 30, label: "Disgust" },
-						{ y: 50, label: "Contempt" },
+            //indexLabel: "Lowest"
+            //,indexLabel: "Highest"
+						{ y: 0, label: "Happy"},
+						{ y: 0, label: "Sad" },
+						{ y: 0, label: "Angry" },
+						{ y: 0, label: "Fear" },
+						{ y: 0, label: "Surprise" },
+						{ y: 0, label: "Disgust" },
+						{ y: 0, label: "Contempt" },
 					]
 				}]
 			});

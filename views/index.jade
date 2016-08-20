@@ -9,20 +9,21 @@ block content
     #buttoncontainer
       button#start start
       button#stop stop
+      button#try try
   form
-    input(type="radio", name = "emotion",value="Happy", checked = "true")
+    input(type="radio", name = "emotion",value=0, checked = "true")
     | Happy
-    input(type="radio", name = "emotion",value="Sad")
+    input(type="radio", name = "emotion",value=1)
     | Sad
-    input(type="radio", name = "emotion",value="Angry")
+    input(type="radio", name = "emotion",value=2)
     | Angry
-    input(type="radio", name = "emotion",value="Fear")
+    input(type="radio", name = "emotion",value=3)
     | Fear
-    input(type="radio", name = "emotion",value="Surprise")
+    input(type="radio", name = "emotion",value=4)
     | Surprise
-    input(type="radio", name = "emotion",value="Disgust")
+    input(type="radio", name = "emotion",value=5)
     | Disgust
-    input(type="radio", name = "emotion",value="Contempt")
+    input(type="radio", name = "emotion",value=6)
     | Contempt
   #chartContainer
   script(src="javascripts/columnchart.js")
