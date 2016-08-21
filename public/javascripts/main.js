@@ -5,11 +5,11 @@ $( "#start" ).click(function() {
   var timeup = 0;
   positionloop = window.setInterval(function(){
     timeup+=1;
-    if (timeup == 20){
+    if (timeup == 3){
       window.clearInterval(positionloop);
     }
     chartdata = {emotion:selectedVal,posarray: JSON.stringify(positions)};
-    $.post("/",chartdata,function( data ) {
+    $.post("/train",chartdata,function( data ) {
     console.log( data);
     console.log("success!");
     }, "json")
