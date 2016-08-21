@@ -11,7 +11,7 @@ var Neuron = synaptic.Neuron,
     Architect = synaptic.Architect;
 
 trainingopts = {
-        rate: .9,
+        rate: .3,
         iterations: 1,
         error: .2,
         shuffle: false,
@@ -20,7 +20,7 @@ trainingopts = {
     }
 
     //this works! no resetting!
-var myNetwork = new Architect.Perceptron(142, 71, 35,7);
+var myNetwork = new Architect.Perceptron(142, 71, 35,1);
 
 
 var trainer = new Trainer(myNetwork);
@@ -60,8 +60,9 @@ function makeinput(emotion,array){
     arrpack.push(currentValue[0]/1000);
     arrpack.push(currentValue[1]/1000);
   });
-  emopack = [0,0,0,0,0,0,0];
-  emopack[emotion] = 1;
+  //emopack = [0,0,0,0,0,0,0];
+  emopack = [emotion];
+  //emopack[emotion] = 1;
   pack = {};
   pack.input = arrpack;
   pack.output = emopack;

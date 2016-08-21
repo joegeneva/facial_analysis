@@ -43,9 +43,11 @@ $( "#try" ).click(function() {
     chartdata = {emotion:selectedVal,posarray: JSON.stringify(positions)};
     $.post("/activate",chartdata,function( data ) {
     console.log( data);
-    data.forEach(function(currentValue,index){
-      chart.options.data[0].dataPoints[index].y = currentValue;
-    });
+    //data.forEach(function(currentValue,index){
+      //chart.options.data[0].dataPoints[index].y = currentValue;
+
+      chart.options.data[0].dataPoints[Math.round(data[0])].y = 1;
+    //});
     chart.render();
     }, "json")
     .fail(function(a,b,c) {
