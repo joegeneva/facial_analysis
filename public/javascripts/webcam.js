@@ -31,10 +31,27 @@ var cc = canvasInput.getContext('2d');
 drawLoop();
 var positions;
 //there are 71 positions for current model
+//x and y go from 0 to 250
+positions= [];
+for(k=0;k<56;k++){
+  positions[k]= [];
+}
+
 function positionLoop() {
     requestAnimationFrame(positionLoop);
-    positions = ctracker.getCurrentPosition();
+    
+    wpositions = ctracker.getCurrentPosition();
+    if(wpositions.length > 15){
+    wpositions = wpositions.slice(15,wpositions.length);
+    //console.log(wpositions.length)
+    for(i=0;i<wpositions.length;i++){
+      
+      for(j=0;j<2;j++){
 
+        positions[i][j]=Math.round(wpositions[i][j]*100)/100;
+      }
+    }
+    }
     // positions = [[x_0, y_0], [x_1,y_1], ... ] xxx.xxx digits
     // do something with the positions ...
   }

@@ -1,0 +1,22 @@
+{
+  "name": "myapp",
+  "description": "summer",
+  "main": "",
+  "authors": [
+    "joegeneva <joepgeneva@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/joegeneva/face_emotions",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.0",
+    "synaptic": "^1.0.8"
+  }
+}

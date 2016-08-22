@@ -2,12 +2,12 @@ var chartdata;
 var positionloop;
 $( "#start" ).click(function() {
   //data is gotten back from server
-  var timeup = 0;
-  positionloop = window.setInterval(function(){
-    timeup+=1;
-    if (timeup == 3){
-      window.clearInterval(positionloop);
-    }
+  //var timeup = 0;
+  //positionloop = window.setInterval(function(){
+    //timeup+=1;
+    //if (timeup == 1){
+      //window.clearInterval(positionloop);
+    //}
     chartdata = {emotion:selectedVal,posarray: JSON.stringify(positions)};
     $.post("/train",chartdata,function( data ) {
     console.log( data);
@@ -17,7 +17,7 @@ $( "#start" ).click(function() {
       console.log(b);
       console.log(c);
     })
-  },500)
+  //},500)
 });
 
 $( "#stop" ).click(function() {
@@ -25,7 +25,7 @@ $( "#stop" ).click(function() {
 });
 
 //get value for chart
-var selectedVal = "Happy";
+var selectedVal = 0;
 
 $( "input[name=emotion]" ).change(function() {
   var selected = $("input[type='radio'][name='emotion']:checked");
@@ -37,17 +37,17 @@ $( "input[name=emotion]" ).change(function() {
 });
 
 
-$( "#try" ).click(function() {
+$( "#activate" ).click(function() {
   //data is gotten back from server
   //positionloop = window.setInterval(function(){
     chartdata = {emotion:selectedVal,posarray: JSON.stringify(positions)};
     $.post("/activate",chartdata,function( data ) {
     console.log( data);
-    //data.forEach(function(currentValue,index){
-      //chart.options.data[0].dataPoints[index].y = currentValue;
+    data.forEach(function(currentValue,index){
+      chart.options.data[0].dataPoints[index].y = currentValue;
 
-      chart.options.data[0].dataPoints[Math.round(data[0])].y = 1;
-    //});
+      //chart.options.data[0].dataPoints[Math.round(data[0])].y = 1;
+    });
     chart.render();
     }, "json")
     .fail(function(a,b,c) {
@@ -59,17 +59,23 @@ $( "#try" ).click(function() {
 
 $( "#save" ).click(function() {
   //data is gotten back from server
-  //positionloop = window.setInterval(function(){
-    $.post("/save",function( data) {
-      console.log(data);
+  var timeup = 0;
+  positionloop = window.setInterval(function(){
+    timeup+=1;
+    console.log(timeup);
+    if (timeup == 5){
+      window.clearInterval(positionloop);
+    }
+  chartdata = {emotion:selectedVal,posarray: JSON.stringify(positions)};
+    $.post("/save",chartdata,function(data) {
+      //console.log(data);
     }, "json")
     .fail(function(a,b,c) {
       console.log(b);
       console.log(c);
     })
-  //},1000);
+  },1000);
 });
-
 
 $( "#load" ).click(function() {
   //data is gotten back from server

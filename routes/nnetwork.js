@@ -4,6 +4,8 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 app.use(bodyParser.json()); // for parsing application/json
 var synaptic = require('synaptic');
+var divby = 250;
+//DEBUG=myapp:* npm start
 var Neuron = synaptic.Neuron,
     Layer = synaptic.Layer,
     Network = synaptic.Network,
@@ -11,16 +13,16 @@ var Neuron = synaptic.Neuron,
     Architect = synaptic.Architect;
 
 trainingopts = {
-        rate: .3,
-        iterations: 1,
-        error: .2,
-        shuffle: false,
-        log: 1000,
+        rate: .1,
+        iterations: 5,
+        error: .05,
+        shuffle: true,
+        log: 1,
         cost: Trainer.cost.MSE
     }
 
     //this works! no resetting!
-var myNetwork = new Architect.Perceptron(142, 71, 35,1);
+var myNetwork = new Architect.Perceptron(112, 71, 35,14,7);
 
 
 var trainer = new Trainer(myNetwork);
@@ -40,34 +42,102 @@ router.post('/activate', function(req, res, next) {
   array = [].concat.apply([], array);
   var cleanarr = [];
   array.forEach(function(currentValue,index){
-    cleanarr.push(currentValue/1000);
+    cleanarr.push(currentValue/divby);
   });
   //console.log(array);
   var netoutput = myNetwork.activate(cleanarr);
   res.send(netoutput);
 });
 
-router.post('/train', function(req, res, next) {
+router.post('/filetrain', function(req, res, next) {
   var array = JSON.parse(req.body.posarray);
   var traindata = makeinput(req.body.emotion,array);
   res.send(trainer.train([traindata],trainingopts));
 });
 
 
+router.post('/train', function(req, res, next) {
+  var fs = require('fs');
+  /*var traindata;
+  fs.readFile("/tmp/test.json",'utf8', function(err,data) {
+if(err) {
+        return console.log(err);
+    }*/
+var filePath = '/tmp/test.json';
+var stream = fs.createReadStream(filePath, {flags: 'r', encoding: 'utf-8'});
+var buf = '';
+var traindata = [];
+stream.on('data', function(d) {
+    buf += d.toString(); // when data is read, stash it in a string buffer
+    pump(); // then process the buffer
+    //console.log('before train');
+//console.log(traindata);
+
+traindata = [].concat.apply([], traindata);
+console.log('space');
+//console.log(traindata);
+  console.log('trainafter');
+  //res.send(traindata);
+  
+
+  trainer.train(traindata,trainingopts);
+  
+});
+res.send(['trained']);
+    //console.log(data);
+    //res.send([data]);
+    //var array = JSON.parse(req.body.posarray);
+   //traindata = JSON.parse(data);
+//})
+
+
+
+function pump() {
+    var pos;
+    //var pumpdata = [];
+    while ((pos = buf.indexOf('\n')) >= 0) { // keep going while there's a newline somewhere in the buffer
+        if (pos == 0) { // if there's more than one newline in a row, the buffer will now start with a newline
+            buf = buf.slice(1); // discard it
+            continue; // so that the next iteration will start with data
+        }
+        processLine(buf.slice(0,pos)); // hand off the line
+        buf = buf.slice(pos+1); // and slice the processed data off the buffer
+    }
+    //console.log(pumpdata);
+    //return pumpdata;
+}
+
+function processLine(line) { // here's where we do something with a line
+    if (line[line.length-1] == '\r') line=line.substr(0,line.length-1); // discard CR (0x0D)
+    var data = [];
+    if (line.length > 0) { // ignore empty lines
+        var obj = JSON.parse(line); // parse the JSON
+        //console.log(obj); // do something with the data here!
+        data.push(obj);
+
+    }
+    traindata.push(data);
+    //console.log(data);
+    //return data;
+}
+
+});
+
 function makeinput(emotion,array){
   var arrpack = [];
   array.forEach(function(currentValue,index){
-    arrpack.push(currentValue[0]/1000);
-    arrpack.push(currentValue[1]/1000);
+    arrpack.push(currentValue[0]/divby);
+    arrpack.push(currentValue[1]/divby);
   });
-  //emopack = [0,0,0,0,0,0,0];
-  emopack = [emotion];
-  //emopack[emotion] = 1;
+  emopack = [0,0,0,0,0,0,0];
+  //emopack = [emotion];
+  emopack[emotion] = 1;
   pack = {};
   pack.input = arrpack;
   pack.output = emopack;
   return pack;
   //trainingSet = [{input: [0,0],output: [0]}]
 }
+
 
 module.exports = router;
