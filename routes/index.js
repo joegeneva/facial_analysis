@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json()); // for parsing application/json
 var fs = require('fs');
 var divby = 250;
+var filename = "/home/joe/test.json";
 //DEBUG=myapp:* npm start
 
 var file = 'data.json';
@@ -17,7 +18,7 @@ router.post('/save', function(req, res, next) {
   //console.log("3");
   //var obj = myNetwork.toJSON();
   //res.send(["saved"]);
-  fs.appendFile("/tmp/test.json",  JSON.stringify(traindata) + '\n', function(err) {
+  fs.appendFile(filename,  JSON.stringify(traindata) + '\n', function(err) {
 if(err) {
         console.log(err);
     }
@@ -33,7 +34,7 @@ router.post('/load', function(req, res, next) {
     //console.dir(obj);
     //var fs = require('fs');
    
-  fs.readFile("/tmp/test.json",'utf8', function(err,data) {
+  fs.readFile(filename,'utf8', function(err,data) {
 if(err) {
         return console.log(err);
     }

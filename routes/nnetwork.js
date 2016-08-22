@@ -5,7 +5,10 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json()); // for parsing application/json
 var synaptic = require('synaptic');
 var divby = 250;
+var filename = "/home/joe/test.json";
 //DEBUG=myapp:* npm start
+
+
 var Neuron = synaptic.Neuron,
     Layer = synaptic.Layer,
     Network = synaptic.Network,
@@ -13,17 +16,20 @@ var Neuron = synaptic.Neuron,
     Architect = synaptic.Architect;
 
 trainingopts = {
-        rate: .1,
-        iterations: 5,
-        error: .05,
+        rate: .01,
+        iterations: 100,
+        error: .005,
         shuffle: true,
-        log: 1,
+        log: 10,
         cost: Trainer.cost.MSE
     }
 
     //this works! no resetting!
-var myNetwork = new Architect.Perceptron(112, 71, 35,14,7);
+var myNetwork = new Architect.Perceptron(112, 80,7);
 
+
+
+//trainer does propagate much better then you.
 
 var trainer = new Trainer(myNetwork);
 router.post('/newnn', function(req, res, next) {
@@ -33,7 +39,7 @@ router.post('/newnn', function(req, res, next) {
 router.post('/test', function(req, res, next) {
   var array = JSON.parse(req.body.posarray);
   var traindata = makeinput(req.body.emotion,array);
-  res.send(trainer.test([traindata]));
+  res.send(mytrainer.test([traindata]));
 });
 
 
@@ -50,20 +56,22 @@ router.post('/activate', function(req, res, next) {
 });
 
 router.post('/filetrain', function(req, res, next) {
-  var array = JSON.parse(req.body.posarray);
-  var traindata = makeinput(req.body.emotion,array);
-  res.send(trainer.train([traindata],trainingopts));
+  //var array = JSON.parse(req.body.posarray);
+  //var traindata = makeinput(req.body.emotion,array);
+  //res.send(trainer.train([traindata],trainingopts));
 });
 
 
 router.post('/train', function(req, res, next) {
   var fs = require('fs');
+  console.log("req");
+  console.log(req.url);
   /*var traindata;
   fs.readFile("/tmp/test.json",'utf8', function(err,data) {
 if(err) {
         return console.log(err);
     }*/
-var filePath = '/tmp/test.json';
+var filePath = filename;
 var stream = fs.createReadStream(filePath, {flags: 'r', encoding: 'utf-8'});
 var buf = '';
 var traindata = [];
@@ -74,15 +82,24 @@ stream.on('data', function(d) {
 //console.log(traindata);
 
 traindata = [].concat.apply([], traindata);
+console.log(traindata.length);
 console.log('space');
 //console.log(traindata);
-  console.log('trainafter');
+
+  
+});
+stream.on('end', function() {
+   console.log('trainafter');
+   console.log(traindata.length);
+    console.log(trainer.train(traindata,trainingopts));
+
+});
+
+ 
   //res.send(traindata);
   
 
-  trainer.train(traindata,trainingopts);
-  
-});
+  console.log("send");
 res.send(['trained']);
     //console.log(data);
     //res.send([data]);
