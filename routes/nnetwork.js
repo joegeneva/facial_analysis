@@ -6,6 +6,7 @@ app.use(bodyParser.json()); // for parsing application/json
 var synaptic = require('synaptic');
 var divby = 250;
 var filename = "/home/joe/test.json";
+var fs = require('fs');
 //DEBUG=myapp:* npm start
 
 
@@ -17,8 +18,8 @@ var Neuron = synaptic.Neuron,
 
 trainingopts = {
         rate: .01,
-        iterations: 100,
-        error: .005,
+        iterations: 50,
+        error: .1,
         shuffle: true,
         log: 10,
         cost: Trainer.cost.MSE
@@ -56,87 +57,22 @@ router.post('/activate', function(req, res, next) {
 });
 
 router.post('/filetrain', function(req, res, next) {
-  //var array = JSON.parse(req.body.posarray);
-  //var traindata = makeinput(req.body.emotion,array);
-  //res.send(trainer.train([traindata],trainingopts));
+  fs.readFile(filename,'utf8', function(err,data) {
+    if(err) {
+        console.log(err);
+    }
+  var array = JSON.parse(data);
+  trainer.train(array.data,trainingopts);
+  })
+  res.send('loaded!');
 });
 
 
 router.post('/train', function(req, res, next) {
-  var fs = require('fs');
-  console.log("req");
-  console.log(req.url);
-  /*var traindata;
-  fs.readFile("/tmp/test.json",'utf8', function(err,data) {
-if(err) {
-        return console.log(err);
-    }*/
-var filePath = filename;
-var stream = fs.createReadStream(filePath, {flags: 'r', encoding: 'utf-8'});
-var buf = '';
-var traindata = [];
-stream.on('data', function(d) {
-    buf += d.toString(); // when data is read, stash it in a string buffer
-    pump(); // then process the buffer
-    //console.log('before train');
-//console.log(traindata);
 
-traindata = [].concat.apply([], traindata);
-console.log(traindata.length);
-console.log('space');
-//console.log(traindata);
-
-  
-});
-stream.on('end', function() {
-   console.log('trainafter');
-   console.log(traindata.length);
-    console.log(trainer.train(traindata,trainingopts));
-
-});
-
- 
-  //res.send(traindata);
-  
-
-  console.log("send");
-res.send(['trained']);
-    //console.log(data);
-    //res.send([data]);
-    //var array = JSON.parse(req.body.posarray);
-   //traindata = JSON.parse(data);
-//})
-
-
-
-function pump() {
-    var pos;
-    //var pumpdata = [];
-    while ((pos = buf.indexOf('\n')) >= 0) { // keep going while there's a newline somewhere in the buffer
-        if (pos == 0) { // if there's more than one newline in a row, the buffer will now start with a newline
-            buf = buf.slice(1); // discard it
-            continue; // so that the next iteration will start with data
-        }
-        processLine(buf.slice(0,pos)); // hand off the line
-        buf = buf.slice(pos+1); // and slice the processed data off the buffer
-    }
-    //console.log(pumpdata);
-    //return pumpdata;
-}
-
-function processLine(line) { // here's where we do something with a line
-    if (line[line.length-1] == '\r') line=line.substr(0,line.length-1); // discard CR (0x0D)
-    var data = [];
-    if (line.length > 0) { // ignore empty lines
-        var obj = JSON.parse(line); // parse the JSON
-        //console.log(obj); // do something with the data here!
-        data.push(obj);
-
-    }
-    traindata.push(data);
-    //console.log(data);
-    //return data;
-}
+  var array = JSON.parse(req.body.posarray);
+  var traindata = makeinput(req.body.emotion,array);
+  res.send(trainer.train([traindata],trainingopts));
 
 });
 

@@ -117,3 +117,9 @@ $( "#newnn" ).click(function() {
     console.log( data);
   })
 });
+
+$( "#filetrain" ).click(function() {
+    $.post("/filetrain",function( data ) {
+    console.log( data);
+  })
+});
