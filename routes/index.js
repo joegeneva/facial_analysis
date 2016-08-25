@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 var fs = require('fs');
 var divby = 250;
-var filename = "/home/joe/test.json";
+var filename = "./data/test.json";
 //DEBUG=myapp:* npm start
 
 router.post('/save', function(req, res, next) {

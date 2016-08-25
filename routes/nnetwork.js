@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json()); // for parsing application/json
 var synaptic = require('synaptic');
 var divby = 250;
-var filename = "/home/joe/test.json";
+var filename = "./data/test.json";
 var fs = require('fs');
 //DEBUG=myapp:* npm start
 
