@@ -12,3 +12,5 @@ https://github.com/cazala/synaptic/
 https://github.com/expressjs/express
 https://github.com/harthur/brain
 https://github.com/nodejs/node
+
+To run project, clone or download and initialize npm. Start the project with 'DEBUG=myapp:* npm start' from the command line. Open the default page at localhost that it tells you in a web browser and you can start workiing with it.

@@ -9,6 +9,7 @@ var filename = "/home/joe/test.json";
 var fs = require('fs');
 //DEBUG=myapp:* npm start
 
+//this file contrains the code for working with the neural network
 
 var Neuron = synaptic.Neuron,
     Layer = synaptic.Layer,
