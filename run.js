@@ -1,3 +1,4 @@
+//for internal testing, run with node.js directly.
 var synaptic = require('synaptic');
 var fs = require('fs');
 var Neuron = synaptic.Neuron,
