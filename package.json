@@ -16,5 +16,22 @@
     "morgan": "~1.7.0",
     "serve-favicon": "~2.3.0",
     "synaptic": "^1.0.8"
-  }
+  },
+  "description": "Joseph Geneva",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joegeneva/face_emotions.git"
+  },
+  "keywords": [
+    "emotion",
+    "recognition",
+    "neural"
+  ],
+  "author": "Joseph Geneva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joegeneva/face_emotions/issues"
+  },
+  "homepage": "https://github.com/joegeneva/face_emotions#readme"
 }
