@@ -20,9 +20,9 @@ var Neuron = synaptic.Neuron,
 trainingopts = {
         rate: .01,
         iterations: 50,
-        error: .1,
+        error: .001,
         shuffle: true,
-        log: 10,
+        log: 1,
         cost: Trainer.cost.MSE
     }
 
@@ -58,13 +58,17 @@ router.post('/activate', function(req, res, next) {
 });
 
 router.post('/filetrain', function(req, res, next) {
-  fs.readFile(filename,'utf8', function(err,data) {
-    if(err) {
-        console.log(err);
-    }
-  var array = JSON.parse(data);
-  trainer.train(array.data,trainingopts);
-  })
+  var lineReader = require('readline').createInterface({
+    input: fs.createReadStream(filename)
+  });
+  var array = [];
+  lineReader.on('line', function (line) {
+    array.push(JSON.parse(line));
+  });
+  lineReader.on('close', () => {
+    trainer.train(array,trainingopts);
+  });
+  
   res.send('loaded!');
 });
 

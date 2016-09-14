@@ -8,7 +8,7 @@ var controlLoop = new function(){
        window.setInterval(function(){
         that.run(process);
        },
-        5000);
+        1000);
      }
   }
 };
@@ -17,13 +17,14 @@ var controlLoop = new function(){
 
 function chartBundle(){return {emotion:selectedVal,posarray: JSON.stringify(positions)}}
 var chartDataArray = [];
-function chartData(){return {data:chartDataArray}}
+function chartdata(){return {data:JSON.stringify(chartDataArray)}}
 
 var collectdata = function(){
   chartDataArray.push(chartBundle());
+  console.log('chart array length is: ' +chartDataArray.length);
 }
 
-$("#start").click(function(){ controlLoop.run(collectdata); });
+$("#start").click(function(){ controlLoop.run(collectdata)});
 
 $("#stop").click(function(){ controlLoop.check = true; });
 

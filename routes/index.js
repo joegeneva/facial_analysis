@@ -9,13 +9,18 @@ var filename = "./data/test.json";
 //DEBUG=myapp:* npm start
 
 router.post('/save', function(req, res, next) {
-  var array = JSON.parse(req.body.posarray);
-  var traindata = makeinput(req.body.emotion,array);
-  fs.appendFile(filename,  JSON.stringify(traindata) + '\n', function(err) {
-    if(err) {
-            console.log(err);
-        }
-    })
+  console.log('here');
+  console.log(req.body.data);
+  var array = JSON.parse(req.body.data);
+  //var array = JSON.parse(req.body.posarray);
+  
+  var batchSave = "";
+  for (var i=0;i<array.length;i++){
+    var traindata = makeinput(array[i].emotion,JSON.parse(array[i].posarray));
+    batchSave += JSON.stringify(traindata) + '\n';
+  }
+
+  fs.appendFile(filename, batchSave )
   res.send(["File saved"]);
 });
 
