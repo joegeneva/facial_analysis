@@ -1,24 +1,25 @@
 var controlLoop = new function(){
+  var that = this;
    this.check = false;
 
    this.run = function(process){
-     while( !this.check ) {
+     if( !this.check ) {
        process();
        window.setInterval(function(){
-        this.run(process);
+        that.run(process);
        },
-        500);
+        5000);
      }
   }
 };
 
 
-
-var chartdata;
+function chartdata(){return {emotion:selectedVal,posarray: JSON.stringify(positions)}}
 var positionloop;
 var senddata = function(){
-chartdata = {emotion:selectedVal,posarray: JSON.stringify(positions)};
-  $.post("/train",chartdata,function( data ) {
+
+//var chartdata = ;
+  $.post("/train",chartdata(),function( data ) {
   console.log( data);
   console.log("success!");
   }, "json")
