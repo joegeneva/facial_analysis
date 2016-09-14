@@ -1,22 +1,25 @@
 extends layout
 block heading
   link(rel='stylesheet', href='/stylesheets/index.css')
+  link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css", integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u", crossorigin="anonymous")
+  //leave this inline!
 block content
-  #container
-    //leave this inline!
-    video(id="videoElement",width="400",height="300",autoplay,loop)
-    canvas(id="drawCanvas" ,width="400" ,height="300")
-    #buttoncontainer
-      button#start start training
-      button#stop stop training
-      button#filetrain load file training
-      button#activate activate
-      button#save save data
-      button#load load data
-      button#delete delete data
-      button#test test
-      button#newnn newnn
-  form
+  h2 This project allows you to try to train a Neural Network to detect your emotions. Use the training buttons to add data and run tests, and use Production when you have it working
+  #panels
+    div(class="panel panel-default")
+      div(class="panel-heading")
+        h3 Training
+          h4 Send data to the network to train it to read your emotions
+      div(class="panel-body")
+        #training
+          button#start start sending data
+          button#stop stop sending data
+          button#save save data
+          button#delete delete data
+          button#filetrain Run network training
+          button#test Live test
+          button#newnn Create freash network to train
+  form#buttonform
     input(type="radio", name = "emotion",value=0, checked = "true")
     | Happy
     input(type="radio", name = "emotion",value=1)
@@ -31,6 +34,16 @@ block content
     | Disgust
     input(type="radio", name = "emotion",value=6)
     | Contempt
+  #container
+    video(id="videoElement",width="400",height="300",autoplay,loop)
+    canvas(id="drawCanvas" ,width="400" ,height="300")
+  div(class="panel panel-default")
+    div(class="panel-heading")
+      h3 Production
+    div(class="panel-body")
+      #Production
+        button#activate start
+        button#deactivate stop
   #chartContainer
   script(src="javascripts/columnchart.js")
   script(src="javascripts/canvasjs.min.js")
@@ -39,3 +52,4 @@ block content
   script(src="javascripts/model_pca_20_svm.js")
   script(src="javascripts/webcam.js")
   script(src="javascripts/main.js")
+  script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js", integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa", crossorigin="anonymous")

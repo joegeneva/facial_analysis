@@ -1,9 +1,8 @@
 #container {
     margin: 0px auto;
     width: 400px;
-    height: 350px;
+    height: 300px;
     position: relative;
-    display: block;
 }
 #videoElement {
     width: 400px;
@@ -20,7 +19,13 @@
   style.height : 300;
 }
 #chartContainer{
-  height:400px;
+  height:300px;
   width:100%;
   margin:40;
+}
+#buttonform{
+  align-content: center;
+  align-self: center;
+  align-items: center;
+  text-align: center;
 }

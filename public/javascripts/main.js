@@ -1,6 +1,38 @@
+var controlLoop = new function(){
+   this.check = false;
+
+   this.run = function(process){
+     while( !this.check ) {
+       process();
+       window.setInterval(function(){
+        this.run(process);
+       },
+        500);
+     }
+  }
+};
+
+
+
 var chartdata;
 var positionloop;
-$( "#start" ).click(function() {
+var senddata = function(){
+chartdata = {emotion:selectedVal,posarray: JSON.stringify(positions)};
+  $.post("/train",chartdata,function( data ) {
+  console.log( data);
+  console.log("success!");
+  }, "json")
+  .fail(function(a,b,c) {
+    console.log(b);
+    console.log(c);
+  })
+}
+
+$("#start").click(function(){ controlLoop.run(senddata); });
+
+$("#stop").click(function(){ controlLoop.check = true; });
+
+//$( "#start" ).click(function() {
   //data is gotten back from server
   //var timeup = 0;
   //positionloop = window.setInterval(function(){
@@ -8,21 +40,12 @@ $( "#start" ).click(function() {
     //if (timeup == 1){
       //window.clearInterval(positionloop);
     //}
-    chartdata = {emotion:selectedVal,posarray: JSON.stringify(positions)};
-    $.post("/train",chartdata,function( data ) {
-    console.log( data);
-    console.log("success!");
-    }, "json")
-    .fail(function(a,b,c) {
-      console.log(b);
-      console.log(c);
-    })
+    
   //},500)
-});
-
-$( "#stop" ).click(function() {
-    window.clearInterval(positionloop);
-});
+//
+//$( "#stop" ).click(function() {
+    //window.clearInterval(positionloop);
+//});
 
 //get value for chart
 var selectedVal = 0;
