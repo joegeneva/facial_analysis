@@ -13,7 +13,7 @@ https://github.com/expressjs/express
 https://github.com/harthur/brain
 https://github.com/nodejs/node
 
-To run project, clone or download and initialize npm. Start the project with 'DEBUG=myapp:* npm start' from the command line. Open the default page at localhost that it tells you in a web browser and you can start workiing with it.
+To run project, clone or download and initialize npm. Start the project with 'DEBUG=[appname]* npm start' where appname is the name of your app, from the command line. Open the default page at localhost that it tells you in a web browser and you can start workiing with it.
 
 The project is able to store data server side now, so after intially collecting it, the neural network can be trained and tested with the stored data. This is done in run.js.
 

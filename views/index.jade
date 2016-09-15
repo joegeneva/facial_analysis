@@ -15,10 +15,15 @@ block content
           button#start start collecting data
           button#stop stop collecting data
           button#save save and clear collected data
-          button#delete clear collected data
+          button#clear clear collected data
           button#filetrain Run network training
           button#test Live test
           button#newnn Create fresh network to train
+          button#delete Delete server Data
+      form
+        div(class="form-group")
+          label(for="comment") error:
+          textarea(class="form-control",rows="2",id="comments")
   form#buttonform
     input(type="radio", name = "emotion",value=0, checked = "true")
     | Happy
@@ -45,6 +50,7 @@ block content
         button#activate start
         button#deactivate stop
   #chartContainer
+  script(src="/socket.io/socket.io.js")
   script(src="javascripts/columnchart.js")
   script(src="javascripts/canvasjs.min.js")
   script(src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js")

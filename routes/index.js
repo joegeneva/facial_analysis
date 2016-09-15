@@ -6,7 +6,6 @@ app.use(bodyParser.json());
 var fs = require('fs');
 var divby = 250;
 var filename = "./data/test.json";
-//DEBUG=myapp:* npm start
 
 router.post('/save', function(req, res, next) {
   console.log('here');
@@ -24,19 +23,8 @@ router.post('/save', function(req, res, next) {
   res.send(["File saved"]);
 });
 
-router.post('/load', function(req, res, next) {
-  fs.readFile(filename,'utf8', function(err,data) {
-    if(err) 
-    {
-      return console.log(err);
-    }
-    console.log(data);
-  })
-  res.send(['loaded']);  
-});
-
 router.post('/delete', function(req, res, next) {
-  fs.unlinkSync('data.json');
+  fs.unlinkSync(filename);
   console.log('successfully deleted data.json');
   res.send(["deleted"]);
 });

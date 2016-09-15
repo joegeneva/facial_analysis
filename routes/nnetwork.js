@@ -7,7 +7,7 @@ var synaptic = require('synaptic');
 var divby = 250;
 var filename = "./data/test.json";
 var fs = require('fs');
-//DEBUG=myapp:* npm start
+var io = require('socket.io');
 
 //this file contrains the code for working with the neural network
 
@@ -26,7 +26,6 @@ trainingopts = {
         cost: Trainer.cost.MSE
     }
 
-    //this works! no resetting!
 var myNetwork = new Architect.Perceptron(112, 80,7);
 
 
@@ -34,26 +33,24 @@ var myNetwork = new Architect.Perceptron(112, 80,7);
 //trainer does propagate much better then you.
 
 var trainer = new Trainer(myNetwork);
+
 router.post('/newnn', function(req, res, next) {
   myNetwork.reset();
   res.send(["newnn"]);
 });
+
 router.post('/test', function(req, res, next) {
   var array = JSON.parse(req.body.posarray);
   var traindata = makeinput(req.body.emotion,array);
-  res.send(mytrainer.test([traindata]));
+  //io.emit('chat message', 'thingy');
+  res.send(trainer.test([traindata]));
 });
 
 
 router.post('/activate', function(req, res, next) {
   var array = JSON.parse(req.body.posarray);
-  array = [].concat.apply([], array);
-  var cleanarr = [];
-  array.forEach(function(currentValue,index){
-    cleanarr.push(currentValue/divby);
-  });
-  //console.log(array);
-  var netoutput = myNetwork.activate(cleanarr);
+  var data = makeinput(req.body.emotion,array);
+  var netoutput = myNetwork.activate(data.input);
   res.send(netoutput);
 });
 
@@ -70,15 +67,6 @@ router.post('/filetrain', function(req, res, next) {
   });
   
   res.send('loaded!');
-});
-
-
-router.post('/train', function(req, res, next) {
-
-  var array = JSON.parse(req.body.posarray);
-  var traindata = makeinput(req.body.emotion,array);
-  res.send(trainer.train([traindata],trainingopts));
-
 });
 
 function makeinput(emotion,array){
