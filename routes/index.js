@@ -7,12 +7,10 @@ var fs = require('fs');
 var divby = 250;
 var filename = "./data/test.json";
 
+//this file handles basic save, delete, index routes.
+
 router.post('/save', function(req, res, next) {
-  console.log('here');
-  console.log(req.body.data);
-  var array = JSON.parse(req.body.data);
-  //var array = JSON.parse(req.body.posarray);
-  
+  var array = JSON.parse(req.body.data);  
   var batchSave = "";
   for (var i=0;i<array.length;i++){
     var traindata = makeinput(array[i].emotion,JSON.parse(array[i].posarray));

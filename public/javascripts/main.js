@@ -1,8 +1,10 @@
+//socket code not currently working
 var socket = io();
 socket.on('error log', function(msg){
     $('#messages').append($('<li>').text(msg));
   });
 
+//used as an easy loop object
 var controlLoop = new function(){
   var that = this;
    this.check = false;
@@ -30,7 +32,7 @@ var controlLoop = new function(){
   }
 };
 
-
+//formatting, wrapping data
 
 function chartBundle(){return {emotion:selectedVal,posarray: JSON.stringify(positions)}}
 var chartDataArray = [];
@@ -39,6 +41,8 @@ function chartdata(){return {data:JSON.stringify(chartDataArray)}}
 var collectdata = function(){
   chartDataArray.push(chartBundle());
 }
+
+//commands greatly simplified with above functions
 
 $("#clear").click(function(){ chartDataArray = [] });
 
@@ -95,6 +99,7 @@ $( "#delete" ).click(function() {
 
 var commentBox = $("#comments");
 
+//sends one data sample to the server to test it
 $( "#test" ).click(function() {
     $.post("/test",chartBundle(),function( data ) {
     commentBox.val(JSON.stringify(data) + '\n' + commentBox.val());
@@ -108,6 +113,7 @@ $( "#newnn" ).click(function() {
   })
 });
 
+//trains nn from saved data
 $( "#filetrain" ).click(function() {
     $.post("/filetrain",function( data ) {
     console.log( data);
