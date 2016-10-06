@@ -6,21 +6,26 @@ socket.on('error log', function(msg){
 
 //used as an easy loop object
 var controlLoop = new function(){
-  var that = this;
+   var that = this;
    this.check = false;
    this.stop = false;
    this.loopCount = 0;
+   this.dataCount = 0;
    this.run = function(process){
-     if( !this.check && this.loopCount < 50) {
+     if( !that.check && (that.loopCount < 50)) {
       console.log('data point');
       that.loopCount +=1;
+     
        process();
-       window.setInterval(function(){
         that.run(process);
-       },
-        3000);
+     }
+     else{
+       that.dataCount+=1;
+       commentBox.val('Done collecting data ' + that.dataCount + '\n' + commentBox.val()); 
+       this.check = true;
      }
    }
+   //depreciated
    this.loop = function(process){
      if( !this.stop) {
        process();
@@ -47,8 +52,6 @@ var collectdata = function(){
 $("#clear").click(function(){ chartDataArray = [] });
 
 $("#start").click(function(){controlLoop.check = false; controlLoop.loopCount = 0; controlLoop.run(collectdata)});
-
-$("#stop").click(function(){ controlLoop.check = true; });
 
 $( "#activate" ).click(function() {controlLoop.stop = false; controlLoop.run(activate) });
 
@@ -87,6 +90,7 @@ $( "#save" ).click(function() {
     $.post("/save",chartdata(),function(data) {
       //console.log(data);
       chartDataArray = [];
+      commentBox.val('Data sent' + '\n' + commentBox.val()); 
     }, "json")
 });
 
