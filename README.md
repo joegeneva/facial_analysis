@@ -16,7 +16,7 @@ https://github.com/expressjs/express
 https://github.com/harthur/brain
 https://github.com/nodejs/node
 
-To run project, clone or download and initialize npm. Start the project with 'npm start' from the command line. Open the default page at localhost:3000 that it tells you in a web browser and you can start workiing with it.
+To run project, clone or download and initialize npm with "npm i" from the command line. Start the project with 'npm start' from the command line. Open the default page at localhost:3000 that it tells you in a web browser and you can start workiing with it.
 
 There is some detail currently logged in the UI, but most of it is in the client console. Open this with ctrl + shift + i.
 The Network training data can only be seen in the server side console currently.
