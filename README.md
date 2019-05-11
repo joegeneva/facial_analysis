@@ -27,4 +27,3 @@ Webcam.js in the public files works with the data captured from the webcam.
 The project is able to store data server side, so after intially collecting it, the neural network can be trained and tested with the stored data. This can be done in run.js, using node run.js from the command line.
 
 This could allow someome with a good background in machine learning to quickly find an algorithm that works well.
-This project may be implemented in python in the future to handle the network code.
